@@ -13,14 +13,24 @@ weatherController.getWeatherByCity = (req, res, next) => {
             res.status(500).send('We are having troubles in the main api');
         }
         const apiResponse = JSON.parse(response.text);
+        const weatherCode = getWeatherCode(apiResponse.weather[0].id);
         const responseToSend = {
             location: apiResponse.name,
             generalInformation: apiResponse.main,
             wind: apiResponse.wind,
             description: apiResponse.weather[0].description,
+            code: weatherCode,
         }
         res.status(200).send(responseToSend);
     })
+}
+
+function getWeatherCode(code) {
+    if(code > 800) {
+        return 9;
+    } else {
+        return Number(String(code).charAt(0));
+    }
 }
 
 module.exports = weatherController;
