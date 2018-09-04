@@ -12,7 +12,7 @@ userController.createUser = (req, res, next) => {
                 res.status(500).send('Error');
             }
         } else {
-            const token = jwt.sign({ email: user.email, password: user.password }, config.secret);
+            const token = jwt.sign({ email: user.email }, config.secret);
             res.status(200).send({ token: `bearer ${token}` }).json();
         }
     });
@@ -28,7 +28,7 @@ userController.logIn = (req, res, next) => {
         } else {
             UserModel.comparePassword(req.body.password, user.password, (err, isMatch) => {
                 if (isMatch && !err) {
-                    const token = jwt.sign({ email: user.email, password: user.password }, config.secret);
+                    const token = jwt.sign({ email: user.email }, config.secret);
                     res.status(200).send({ success: true, token: `bearer ${token}` });
                 } else {
                     res.status(401).send({ success: false, msg: 'Authentication failed. Wrong password' });
