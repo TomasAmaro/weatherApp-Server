@@ -15,6 +15,6 @@ router.get('/', (req, res, next) => {
 router.post('/user', [userController.createUser]);
 router.post('/user/login', [userController.logIn]);
 router.get('/user', [authController.isAuthorized, userController.getUserByMail]);
-router.get('/weather/city', [weatherController.getWeatherByCity]);
+router.get('/weather/city', [authController.isAuthorized, weatherController.getWeatherByCity]);
 
 module.exports = router;
